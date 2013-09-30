@@ -124,17 +124,14 @@ Ext.define('IterationBreakdownCalculator', {
     },
 
     _getBucketKey: function (record) {
-      console.log('_getBucketKey', record);
       return this._getIterationKey(record.Iteration);
     },
 
     _getIterationKey: function (iteration) {
-      console.log('_getIterationKey', iteration);
       var rawDate = Rally.util.DateTime.fromIsoString(iteration.EndDate);
       var timezone = Rally.util.DateTime.parseTimezoneOffset(iteration.EndDate);
       var localDate = Rally.util.DateTime.add(rawDate, 'minute', timezone * -1);
 
-      //console.log('Date', rawDate, localDate);
       var date = Rally.util.DateTime.formatWithDefault(localDate);
       return iteration.Name + '<br>' + date;
     },
@@ -151,6 +148,8 @@ Ext.define('IterationBreakdownCalculator', {
       Ext.Array.each(stories, function (story) {
         pe = parseInt('' + story.PlanEstimate, 10);
         v = story[field] || noValueLabel;
+
+        if (Ext.isObject(v)) { console.log(v); }
 
         if (pe && !isNaN(pe)) {
           sum[v] = sum[v] + story.PlanEstimate;
@@ -217,7 +216,7 @@ Ext.define('IterationBreakdownCalculator', {
         categories.push(me._getIterationKey(iterationMap[iName]));
       });
 
-      debugger;
+      //debugger;
 
       return {
         categories: categories,

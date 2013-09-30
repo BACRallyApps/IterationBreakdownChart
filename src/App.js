@@ -9,6 +9,7 @@ Ext.define('CustomApp', {
     settingsScope: 'project',
     config: {
       defaultSettings: {
+        chartName: 'Iteration Breakdown',
         includeBefore: 0,
         includeAfter: 0,
         field: 'ScheduleState',
@@ -18,6 +19,10 @@ Ext.define('CustomApp', {
 
     getSettingsFields: function () {
       return [{
+        name: 'chartName',
+        label: 'Chart Name',
+        xtype: 'rallytextfield'
+      }, {
         name: 'includeBefore',
         label: 'Include Previous Releases',
         xtype: 'rallynumberfield'
@@ -230,7 +235,7 @@ Ext.define('CustomApp', {
             type: 'column'
           },
           title: {
-            text: 'Iteration Breakdown'
+            text: me.getSetting('chartName') || 'Iteration Breakdown'
           },
           subtitle: {
             text: 'By ' + me.getSetting('field')
