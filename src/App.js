@@ -13,6 +13,7 @@ Ext.define('CustomApp', {
         includeBefore: 0,
         includeAfter: 0,
         field: 'ScheduleState',
+        acceptedStoriesOnly: true,
         noValueLabel: 'None'
       }
     },
@@ -39,6 +40,10 @@ Ext.define('CustomApp', {
         name: 'noValueLabel',
         label: 'Empty Value Label',
         xtype: 'rallytextfield'
+      }, {
+        name: 'acceptedStoriesOnly',
+        label: 'Filter Only Accepted Stories',
+        xtype: 'rallycheckboxfield'
       }];
     },
 
@@ -183,6 +188,14 @@ Ext.define('CustomApp', {
         operator: endOp,
         value: endDate
       }]);
+
+      if (me.getSetting('acceptedStoriesOnly')) {
+        query = query.and({
+          property: 'ScheduleState',
+          operator: '>=',
+          value: 'Accepted'
+        });
+      }
 
       return query;
     },
